@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St. Francis of Assisi Mamelodi West Diocese of Pretoria - ACSA 1954-2025, 71 YEARS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>   
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.css">
+    <style id="app-style">
+        :root {
+            --navy-blue: #1e226a;
+            --liturgical-red: #c7252d;
+            --gold: #d4a941;
+            --white: #ffffff;
+            --primary-bg: #f8fafc;
+            --card-bg: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #222;
+            background: var(--primary-bg);
+        }
+
+        .text-navy { color: var(--navy-blue); }
+        .text-liturgical-red { color: var(--liturgical-red); }
+        .text-gold { color: var(--gold); }
+        .bg-navy { background-color: var(--navy-blue); }
+        .bg-liturgical-red { background-color: var(--liturgical-red); }
+        .bg-gold { background-color: var(--gold); }
+        .border-gold { border-color: var(--gold); }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+            padding-bottom: 2px;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -4px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold) 60%, var(--liturgical-red) 100%);
+            border-radius: 2px;
+            width: 0;
+            transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .nav-link:hover:after,
+        .nav-link.active:after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: var(--gold);
+        }
+
+        .hero-section {
+            background-size: cover;
+            background-position: center;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background-image 1s cubic-bezier(0.4,0,0.2,1);
+        }
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(30,34,106,0.5),rgba(30,34,106,0.5));
+            z-index: 1;
+        }
+        .hero-section > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /*service times section*/
+
+        .ServiveTimez{
+             background-size: cover;
+            background-position: center;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background-image 1s cubic-bezier(0.4,0,0.2,1);
+        }
+        .ServiveTimez::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(30,34,106,0.5),rgba(30,34,106,0.5));
+            z-index: 1;
+        }
+
+        /*contact*/
+        .contact{
+             background-size: cover;
+            background-position: center;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background-image 1s cubic-bezier(0.4,0,0.2,1);
+        
+        }
+        .contact::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(30,34,106,0.5),rgba(30,34,106,0.5));
+            z-index: 1;
+        }
+
+
+
+        .section-header {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+        .section-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .accordion-item {
+            transition: all 0.3s;
+            background: var(--card-bg);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 8px rgba(30,34,106,0.05);
+        }
+        .accordion-header {
+            cursor: pointer;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s;
+        }
+        .accordion-content.active {
+            max-height: 500px;
+        }
+
+        .st-francis-prayer {
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            background-color: rgba(212, 169, 65, 0.07);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 8px;
+            transition: transform 0.3s;
+            background: var(--card-bg);
+            box-shadow: 0 2px 8px rgba(30,34,106,0.05);
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .btn-primary {
+            background-color: var(--navy-blue);
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(30,34,106,0.08);
+        }
+        .btn-primary:hover {
+            background-color: var(--liturgical-red);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(30,34,106,0.15);
+        }
+        .btn-secondary {
+            background-color: var(--gold);
+            color: var(--navy-blue);
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(212,169,65,0.08);
+        }
+        .btn-secondary:hover {
+            background-color: var(--navy-blue);
+            color: var(--white);
+            transform: translateY(-3px) scale(1.03);
+        }
+
+        .mobile-nav {
+            right: 0;
+            left: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mobile-nav.open {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            .ministry-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ministry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .ministry-item {
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: var(--card-bg);
+            box-shadow: 0 2px 8px rgba(30,34,106,0.05);
+        }
+        .ministry-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 24px rgba(30,34,106,0.10);
+        }
+        .ministry-content {
+            padding: 1.5rem;
+        }
+        .ministry-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: filter 0.3s;
+        }
+        .ministry-img:hover {
+            filter: brightness(0.95) contrast(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(30,34,106,0.85);
+            z-index: 1000;
+            overflow-y: auto;
+            transition: background 0.3s;
+            backdrop-filter: blur(3px) brightness(0.95);
+            animation: modalBgFadeIn 0.5s cubic-bezier(0.4,0,0.2,1);
+        }
+        @keyframes modalBgFadeIn {
+            from { background: rgba(30,34,106,0); }
+            to { background: rgba(30,34,106,0.85); }
+        }
+        .modal-content {
+            background: #fff;
+            margin: 4% auto;
+            padding: 2.5rem 2rem 2rem 2rem;
+            width: 95%;
+            max-width: 600px;
+            border-radius: 16px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 12px 40px rgba(30,34,106,0.25);
+            position: relative;
+            animation: modalFadeIn 0.5s cubic-bezier(0.4,0,0.2,1);
+            opacity: 0;
+            transform: scale(0.96) translateY(40px);
+            animation-fill-mode: forwards;
+            /* Add a subtle shadow glow */
+            box-shadow: 0 12px 40px rgba(30,34,106,0.25), 0 0 0 4px rgba(212,169,65,0.07);
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.96) translateY(40px);}
+            to { opacity: 1; transform: scale(1) translateY(0);}
+        }
+        .modal-content h2, .modal-content h3, .modal-content h4 {
+            color: var(--navy-blue);
+            position: relative;
+            z-index: 1;
+            animation: modalHeaderSlideIn 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        @keyframes modalHeaderSlideIn {
+            from { opacity: 0; transform: translateY(-30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .modal-content p, .modal-content ul, .modal-content li {
+            color: #222;
+            animation: modalTextFadeIn 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+        @keyframes modalTextFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .close-modal {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--navy-blue);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+            z-index: 10;
+            /* Add a bounce effect on hover */
+        }
+        .close-modal:hover {
+            color: var(--liturgical-red);
+            transform: scale(1.15) rotate(90deg);
+            animation: closeBounce 0.4s;
+        }
+        @keyframes closeBounce {
+            0% { transform: scale(1) rotate(0deg);}
+            40% { transform: scale(1.2) rotate(45deg);}
+            60% { transform: scale(1.1) rotate(70deg);}
+            100% { transform: scale(1.15) rotate(90deg);}
+        }
+        /* Modal content subtle gold border animation */
+        .modal-content::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            border: 2px solid var(--gold);
+            opacity: 0.12;
+            pointer-events: none;
+            animation: borderGlow 2.5s infinite alternate;
+        }
+        @keyframes borderGlow {
+            from { opacity: 0.12; }
+            to { opacity: 0.28; }
+        }
+        @media (max-width: 640px) {
+            .modal-content {
+                padding: 1.2rem 0.7rem 1.5rem 0.7rem;
+                max-width: 98vw;
+            }
+            .close-modal {
+                top: 0.7rem;
+                right: 1rem;
+                font-size: 1.7rem;
+            }
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 16px;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 24px rgba(30,34,106,0.12), 0 0 0 3px rgba(212,169,65,0.10);
+            border: 2px solid var(--gold);
+            background: #f8fafc;
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+        #map:hover {
+            box-shadow: 0 8px 32px rgba(30,34,106,0.18), 0 0 0 5px rgba(212,169,65,0.18);
+            border-color: var(--navy-blue);
+        }
+
+        /* Improved footer */
+        footer {
+            background: linear-gradient(90deg, var(--navy-blue) 80%, var(--gold) 100%);
+            color: var(--white);
+            box-shadow: 0 -4px 24px rgba(30,34,106,0.10);
+            position: relative;
+        }
+        footer a {
+            color: var(--white);
+            transition: color 0.2s, text-decoration 0.2s;
+            text-decoration: none;
+        }
+        footer a:hover, footer a:focus {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+        footer h4 {
+            color: var(--gold);
+            letter-spacing: 0.5px;
+        }
+        footer .container {
+            position: relative;
+            z-index: 2;
+        }
+        footer .border-t {
+            border-color: rgba(255,255,255,0.15);
+        }
+        @media (max-width: 768px) {
+            footer .grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased" id="body">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <img src="https://cdn.pixabay.com/photo/2017/01/31/23/36/gothic-2028607_1280.png" alt="Church Logo" class="h-12 w-auto mr-2">
+                    <span class="text-xl font-bold text-navy">St. Francis of Assisi</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link active text-navy font-medium">Home</a>
+                    <a href="#about" class="nav-link text-navy font-medium">About</a>
+                    <a href="#ministries" class="nav-link text-navy font-medium">Ministries</a>
+                    <a href="#services" class="nav-link text-navy font-medium">Services</a>
+                    <a href="#events" class="nav-link text-navy font-medium">Events</a>
+                    <a href="#contact" class="nav-link text-navy font-medium">Contact</a>
+                    <a href="#faq" class="nav-link text-navy font-medium" id="faqNavLink">
+                        FAQ
+                        <span class="inline-block ml-1 px-2 py-0.5 rounded-full bg-gold text-navy text-xs font-bold animate-pulse" style="vertical-align:middle;">?</span>
+                    </a>
+                </div>
+<!-- Mobile Menu Button (HAMBURGER)-->
+
+                <div class="flex items-center">
+                    <button class="md:hidden transition-transform duration-200 active:scale-90 focus:scale-90 focus:outline-none" id="mobileMenuBtn">
+                        <i class="fas fa-bars text-2xl text-navy"></i>
+                    </button>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav fixed top-0 left-0 h-full w-80 bg-gradient-to-b from-navy-blue via-navy-blue/90 to-gold z-50 p-6 shadow-2xl rounded-r-3xl transition-transform duration-300" id="mobileNav" style="box-shadow: 0 12px 40px rgba(30,34,106,0.22), 0 0 0 8px rgba(212,169,65,0.10); color: #111;">
+        <div class="flex justify-between items-center">
+            <span class="text-xl font-bold text-gold tracking-wide" style="color:#111;">Menu</span>
+            <button id="closeMenuBtn" class="text-black hover:text-gold p-2 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gold">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+        <nav class="flex flex-col space-y-6 mt-10">
+            <a href="#home" class="mobile-nav-link flex items-center gap-3 text-black font-semibold text-lg py-2 px-3 rounded-lg hover:bg-gold/10 transition group relative">
+                <i class="fas fa-home"></i>
+                Home
+                <span class="mobile-underline absolute left-0 bottom-0 w-0 h-1 bg-gold rounded transition-all"></span>
+            </a>
+            <a href="#about" class="mobile-nav-link flex items-center gap-3 text-black font-semibold text-lg py-2 px-3 rounded-lg hover:bg-gold/10 transition group relative">
+                <i class="fas fa-info-circle"></i>
+                About
+                <span class="mobile-underline absolute left-0 bottom-0 w-0 h-1 bg-gold rounded transition-all"></span>
+            </a>
+            <a href="#ministries" class="mobile-nav-link flex items-center gap-3 text-black font-semibold text-lg py-2 px-3 rounded-lg hover:bg-gold/10 transition group relative">
+                <i class="fas fa-hands-helping"></i>
+                Ministries
+                <span class="mobile-underline absolute left-0 bottom-0 w-0 h-1 bg-gold rounded transition-all"></span>
+            </a>
+            <a href="#services" class="mobile-nav-link flex items-center gap-3 text-black font-semibold text-lg py-2 px-3 rounded-lg hover:bg-gold/10 transition group relative">
+                <i class="fas fa-church"></i>
+                Services
+                <span class="mobile-underline absolute left-0 bottom-0 w-0 h-1 bg-gold rounded transition-all"></span>
+            </a>
+            <a href="javascript:void(0);" class="mobile-nav-link flex items-center gap-3 text-black font-semibold text-lg py-2 px-3 rounded-lg hover:bg-gold/10 transition group relative" id="mobileEventsLink">
+                <i class="fas fa-calendar-alt"></i>
+                Events
+                <span class="mobile-underline absolute left-0 bottom-0 w-0 h-1 bg-gold rounded transition-all"></span>
+            </a>
+            <a href="#contact" class="mobile-nav-link flex items-center gap-3 text-black font-semibold text-lg py-2 px-3 rounded-lg hover:bg-gold/10 transition group relative">
+                <i class="fas fa-envelope"></i>
+                Contact
+                <span class="mobile-underline absolute left-0 bottom-0 w-0 h-1 bg-gold rounded transition-all"></span>
+            </a>
+            <a href="#faq" class="mobile-nav-link flex items-center gap-3 text-black font-semibold text-lg py-2 px-3 rounded-lg hover:bg-gold/10 transition group relative" id="faqMobileNavLink">
+                <i class="fas fa-question-circle"></i>
+                FAQ
+                <span class="mobile-underline absolute left-0 bottom-0 w-0 h-1 bg-gold rounded transition-all"></span>
+            </a>
+        </nav>
+        <script>
+            // Close mobile nav after clicking any link and restore body scroll
+            document.addEventListener('DOMContentLoaded', function () {
+                var mobileNav = document.getElementById('mobileNav');
+                var closeMenuBtn = document.getElementById('closeMenuBtn');
+                var links = mobileNav.querySelectorAll('.mobile-nav-link');
+                function closeNav() {
+                    mobileNav.classList.remove('open');
+                    // Restore body scroll if it was disabled
+                    document.body.style.overflow = '';
+                }
+                links.forEach(function(link) {
+                    link.addEventListener('click', function(e) {
+                        closeNav();
+                    });
+                });
+                if (closeMenuBtn) {
+                    closeMenuBtn.addEventListener('click', closeNav);
+                }
+            });
+        </script>
+        <div class="absolute bottom-6 left-0 w-full text-center">
+            <a href="https://griffin71.github.io/LineTechPortal/" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-5 py-2 rounded-full bg-gradient-to-r from-gold to-liturgical-red text-navy font-bold shadow-lg hover:scale-105 hover:from-navy-blue hover:to-gold hover:text-white transition-all duration-300 border-2 border-gold group" style="color:#111;">
+                <span class="mr-2">
+                    <svg width="22" height="22" viewBox="0 0 32 32" fill="none" class="inline-block align-middle" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="16" fill="#FFD700"/>
+                        <path d="M8 24L16 8L24 24H20L16 16L12 24H8Z" fill="#1e226a"/>
+                    </svg>
+                </span>
+                <span>
+                    <span class="underline text-gold">Made by Line-Tech</span>
+                </span>
+                <span class="ml-2 text-xs bg-white text-gold px-2 py-0.5 rounded-full font-semibold animate-bounce">Visit Us!</span>
+            </a>
+        </div>
+        <style>
+            .mobile-nav {
+                backdrop-filter: blur(10px) saturate(120%);
+                -webkit-backdrop-filter: blur(10px) saturate(120%);
+                border-right: 3px solid var(--gold);
+                color: #111 !important;
+            }
+            .mobile-nav-link,
+            .mobile-nav-link i {
+                color: #111 !important;
+            }
+            .mobile-nav-link.active,
+            .mobile-nav-link:focus,
+            .mobile-nav-link[aria-current="page"] {
+                color: var(--gold) !important;
+                background: rgba(212,169,65,0.10);
+            }
+            .mobile-nav-link.active .mobile-underline,
+            .mobile-nav-link:focus .mobile-underline,
+            .mobile-nav-link[aria-current="page"] .mobile-underline {
+                width: 100% !important;
+            }
+            .mobile-nav-link .mobile-underline {
+                transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+                bottom: 0;
+                left: 0;
+                height: 3px;
+                width: 0;
+                background: linear-gradient(90deg, var(--gold) 60%, var(--liturgical-red) 100%);
+                border-radius: 2px;
+            }
+            .mobile-nav-link:hover .mobile-underline {
+                width: 100%;
+            }
+            #faqMobileNavLink .mobile-underline {
+                width: 0 !important;
+            }
+            #faqMobileNavLink.active .mobile-underline,
+            #faqMobileNavLink:focus .mobile-underline,
+            #faqMobileNavLink:hover .mobile-underline {
+                width: 100% !important;
+            }
+            #faqNavLink .inline-block,
+            #faqMobileNavLink .inline-block {
+                box-shadow: 0 2px 8px rgba(212,169,65,0.18);
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-weight: bold;
+            }
+            .group:hover .underline {
+                color: #fff !important;
+            }
+            @media (max-width: 500px) {
+                .mobile-nav { width: 95vw; min-width: 0; }
+            }
+        </style>
+        <script>
+            // Highlight active link based on hash
+            function setActiveMobileNav() {
+                var links = document.querySelectorAll('.mobile-nav-link');
+                var hash = window.location.hash || "#home";
+                links.forEach(function(link) {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            window.addEventListener('hashchange', setActiveMobileNav);
+            document.addEventListener('DOMContentLoaded', function () {
+                setActiveMobileNav();
+                // Events link opens calendar modal
+                var link = document.getElementById('mobileEventsLink');
+                var btn = document.getElementById('openMobileCalendar');
+                if (link && btn) {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        btn.click();
+                    });
+                }
+                // Also update on nav click
+                document.querySelectorAll('.mobile-nav-link').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        setTimeout(setActiveMobileNav, 100);
+                    });
+                });
+            });
+        </script>
+    </div>
+    <script>
+        // Remove underline from FAQ nav link unless active or hovered (desktop)
+        document.addEventListener('DOMContentLoaded', function () {
+            var faqNav = document.getElementById('faqNavLink');
+            if (faqNav) {
+                faqNav.addEventListener('mouseenter', function () {
+                    faqNav.classList.add('active');
+                });
+                faqNav.addEventListener('mouseleave', function () {
+                    if (window.location.hash !== '#faq') {
+                        faqNav.classList.remove('active');
+                    }
+                });
+                window.addEventListener('hashchange', function () {
+                    if (window.location.hash === '#faq') {
+                        faqNav.classList.add('active');
+                    } else {
+                        faqNav.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- Home Page -->
+            <section id="home" class="pt-20">
+            <div class="hero-section">
+                <div class="text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+                    Welcome to St. Francis of Assisi Mamelodi West
+                </h1>
+                <p class="text-xl text-white mb-8 drop-shadow">
+                    A place of worship, pilgrimage, and discovery since 1954
+                </p>
+                <a href="#about" class="btn-primary px-6 py-3 rounded-lg text-lg font-semibold shadow-lg">
+                    Learn More
+                </a>
+                </div>
+            </div>
+            </section>
+
+                            <script>
+                const heroSection = document.querySelector('.hero-section');
+                const heroImages = [
+                    'assets/hero1.jpg',
+                    'assets/hero2.jpg',
+                    'assets/hero3.jpg',
+                    'assets/hero4.jpg',
+                    'assets/hero5.jpg',
+                    'assets/hero6.jpg',
+                    'assets/hero7.jpg',
+                    'assets/hero8.jpg'
+                ];
+
+                function setRandomBackground() {
+                    const randomIndex = Math.floor(Math.random() * heroImages.length);
+                    heroSection.style.backgroundImage = `url('${heroImages[randomIndex]}')`;
+                }
+
+                // Set initial random background
+                setRandomBackground();
+
+                // Change to a new random background every 5 seconds
+                setInterval(setRandomBackground, 5000);
+                </script>
+
+
+
+        <div class="container mx-auto px-4 py-16">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-navy mb-6 section-header">Welcome to Our Church</h2>
+                <p class="text-lg mb-6">
+                    St. Francis of Assisi Mamelodi West stands as a beacon of faith and history in our community. For nearly a millennium, our doors have been open to all who seek spiritual guidance, historical appreciation, or simply a moment of peaceful reflection.
+                </p>
+                <p class="text-lg mb-8">
+                    Whether you're a pilgrim, a history enthusiast, or a curious visitor, we invite you to experience the awe-inspiring architecture, rich heritage, and vibrant community that make our church a special place of worship and discovery.
+                </p>
+                <a href="#contact" class="btn-secondary px-6 py-3 rounded-lg text-lg font-semibold inline-block">Plan Your Visit</a>
+            </div>
+        </div>
+</section>
+
+    <!--service times-->
+    <section id="ServiveTimez"></section>
+        <div class="bg-gray-100 py-16 relative overflow-hidden">
+            <!-- Background image container -->
+            <div id="serviceTimesBg" class="absolute inset-0 w-full h-full z-0" style="background-size:cover;background-position:center;transition:background-image 1s cubic-bezier(0.4,0,0.2,1); opacity:0.45; pointer-events:none;"></div>
+            <div class="container mx-auto px-4 relative z-10">
+                <h2 class="text-3xl font-bold text-center text-navy mb-12 section-header">Service Times</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="rounded-full bg-navy w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-sun text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy mb-3">Sunday Services</h3>
+                        <p class="mb-2">7:00 AM - Express Service</p>
+                        <p class="mb-2">8:00 AM - Main Service</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="rounded-full bg-liturgical-red w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-pray text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy mb-3">Weekday Services</h3>
+                        <p class="mb-2">7:30 AM - Morning Prayer (Mon-Fri)</p>
+                        <p class="mb-2">12:00 PM - Holy Communion (Wed)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="rounded-full bg-gold w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-calendar-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-navy mb-3">Special Services</h3>
+                        <p class="mb-2">Please check our calendar for</p>
+                        <p class="mb-2">holiday services and special</p>
+                        <p>liturgical celebrations.</p>
+                    </div>
+                </div>
+            </div>
+            <script>
+                // Array of background images for service times section
+                const serviceTimesImages = [
+                    'HERO/HERO.jpg',
+                    'HERO/HERO2.jpg',
+                    'HERO/HERO3.jpg',
+                    'HERO/HERO4.jpg'
+                ];
+                const serviceTimesBg = document.getElementById('serviceTimesBg');
+                let serviceTimesIdx = 0;
+                function setServiceTimesBg() {
+                    serviceTimesBg.style.backgroundImage = `url('${serviceTimesImages[serviceTimesIdx]}')`;
+                    serviceTimesIdx = (serviceTimesIdx + 1) % serviceTimesImages.length;
+                }
+                setServiceTimesBg();
+                setInterval(setServiceTimesBg, 7000);
+            </script>
+        </div>
+    </section>
+
+    <!-- About Page -->
+    <section id="about" class="pt-24 pb-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-navy mb-16 section-header">About Our Church</h2>
+            <div class="flex flex-col md:flex-row mb-16 gap-8">
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-bold text-navy mb-4 section-header">History Summary</h3>
+                    <p class="mb-4">
+                        St. Francis of Assisi Mamelodi West was established in 1954 as a mission church to serve the growing community in Mamelodi. For over 71 years, our church has been a pillar of faith, hope, and love in our community.
+                    </p>
+                    <p class="mb-4">
+                        The church began as a small gathering of faithful Anglicans who met in homes before a permanent structure was built. Through the challenging years of apartheid, the church stood as a symbol of resistance and hope, providing spiritual guidance and practical support to the community.
+                    </p>
+                    <p>
+                        Today, we continue to honor this rich legacy while adapting to meet the needs of our diverse congregation and community in the 21st century.
+                    </p>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="https://cdn.pixabay.com/photo/2020/02/06/09/39/cathedral-5244502_1280.jpg" alt="Church History" class="rounded-lg shadow-lg w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row mb-16 gap-8">
+                <div class="md:w-1/2 order-2 md:order-1">
+                    <img src="https://cdn.pixabay.com/photo/2017/01/24/10/58/altar-2005009_1280.jpg" alt="Church Mission" class="rounded-lg shadow-lg w-full h-full object-cover">
+                </div>
+                <div class="md:w-1/2 order-1 md:order-2">
+                    <h3 class="text-2xl font-bold text-navy mb-4 section-header">Mission and Vision</h3>
+                    <p class="mb-4">
+                        <strong>Mission Statement:</strong> St. Francis of Assisi Mamelodi West exists to glorify God by making disciples who are rooted in faith, growing in love, and serving with hope in the footsteps of our patron saint.
+                    </p>
+                    <p class="mb-4">
+                        <strong>Vision Statement:</strong> To be a vibrant, inclusive Anglican community that transforms lives through worship, fellowship, and outreach, embodying Christ's love in Mamelodi and beyond.
+                    </p>
+                    <p>
+                        As we walk in the way of St. Francis, we are committed to caring for God's creation, serving the marginalized, promoting peace and reconciliation, and nurturing a deep spiritual life that honors our Anglican heritage while embracing the diversity and dynamism of our community.
+                    </p>
+                </div>
+            </div>
+            <div class="st-francis-prayer text-center my-16">
+                <h3 class="text-2xl font-bold text-navy mb-6 section-header">Prayer of St. Francis</h3>
+                <p class="text-xl italic mb-4">
+                    Lord, make me an instrument of your peace.<br>
+                    Where there is hatred, let me sow love;<br>
+                    Where there is injury, pardon;<br>
+                    Where there is doubt, faith;<br>
+                    Where there is despair, hope;<br>
+                    Where there is darkness, light;<br>
+                    Where there is sadness, joy.
+                </p>
+                <p class="text-xl italic">
+                    O Divine Master, grant that I may not so much seek<br>
+                    To be consoled as to console,<br>
+                    To be understood as to understand,<br>
+                    To be loved as to love;<br>
+                    For it is in giving that we receive,<br>
+                    It is in pardoning that we are pardoned,<br>
+                    And it is in dying that we are born to eternal life.
+                </p>
+            </div>
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-navy mb-6 text-center section-header">Church Structure</h3>
+                <div class="max-w-3xl mx-auto">
+                    <!-- Stepper Navigation -->
+                    <div class="flex items-center justify-center mb-8 space-x-4">
+                        <button class="step-btn bg-gold text-navy font-bold px-4 py-2 rounded-full shadow transition hover:bg-navy hover:text-gold focus:outline-none" data-step="0">
+                            1
+                        </button>
+                        <div class="w-8 h-1 bg-gold"></div>
+                        <button class="step-btn bg-gold text-navy font-bold px-4 py-2 rounded-full shadow transition hover:bg-navy hover:text-gold focus:outline-none" data-step="1">
+                            2
+                        </button>
+                        <div class="w-8 h-1 bg-gold"></div>
+                        <button class="step-btn bg-gold text-navy font-bold px-4 py-2 rounded-full shadow transition hover:bg-navy hover:text-gold focus:outline-none" data-step="2">
+                            3
+                        </button>
+                    </div>
+                    <!-- Step Content -->
+                    <div class="step-content">
+                        <!-- Step 1 -->
+                        <div class="step-panel" data-step="0">
+                            <div class="text-center mb-4">
+                                <img src="assets/asca.svg" alt="ACSA Logo" class="mx-auto mb-2 rounded-full shadow" style="height:60px;">
+                            </div>
+                            <h4 class="text-xl font-bold text-navy mb-2 text-center">Anglican Church of Southern Africa (ACSA)</h4>
+                            <p class="mb-2 text-center">A province of the Anglican Communion covering Southern Africa, led by Archbishop Dr. Thabo Makgoba.</p>
+                            <ul class="flex flex-wrap justify-center gap-2 text-sm text-navy mb-2">
+                                <li class="bg-gold px-3 py-1 rounded-full">South Africa</li>
+                                <li class="bg-gold px-3 py-1 rounded-full">Namibia</li>
+                                <li class="bg-gold px-3 py-1 rounded-full">Lesotho</li>
+                                <li class="bg-gold px-3 py-1 rounded-full">Mozambique</li>
+                                <li class="bg-gold px-3 py-1 rounded-full">Angola</li>
+                                <li class="bg-gold px-3 py-1 rounded-full">Eswatini</li>
+                                <li class="bg-gold px-3 py-1 rounded-full">St Helena</li>
+                            </ul>
+                            <div class="text-center mt-4">
+                                <span class="inline-block bg-navy text-white px-4 py-1 rounded-full text-sm">Archbishop: Dr. Thabo Makgoba</span>
+                            </div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="step-panel hidden" data-step="1">
+                            <div class="text-center mb-4">
+                                <img src="assets/dp.png" alt="Diocese of Pretoria Logo" class="mx-auto mb-2 rounded-full shadow" style="height:60px;">
+                            </div>
+                            <h4 class="text-xl font-bold text-navy mb-2 text-center">Diocese of Pretoria</h4>
+                            <p class="mb-2 text-center">One of ACSA's dioceses, covering Pretoria and surrounds. Bishop: Allan Kannemeyer.</p>
+                            <div class="flex flex-wrap justify-center gap-2 mb-2">
+                                <span class="bg-gold px-3 py-1 rounded-full text-sm">Pretoria</span>
+                                <span class="bg-gold px-3 py-1 rounded-full text-sm">Gauteng</span>
+                            </div>
+                            <div class="text-center mt-4">
+                                <span class="inline-block bg-navy text-white px-4 py-1 rounded-full text-sm">Bishop: Allan Kannemeyer</span>
+                            </div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="step-panel hidden" data-step="2">
+                            <div class="text-center mb-4">
+                                <img src="https://cdn.pixabay.com/photo/2017/01/31/23/36/gothic-2028607_1280.png" alt="St Francis Logo" class="mx-auto mb-2 rounded-full shadow" style="height:60px;">
+                            </div>
+                            <h4 class="text-xl font-bold text-navy mb-2 text-center">Where does St. Francis fit?</h4>
+                            <p class="mb-2 text-center">We are part of the <span class="font-semibold text-gold">Pretoria East Archdeaconry</span> in the Diocese of Pretoria.</p>
+                            <div class="flex flex-col md:flex-row justify-center gap-4 mb-2">
+                                <div>
+                                    <h5 class="font-semibold text-navy mb-1 text-center">Archdeaconries:</h5>
+                                    <ul class="list-disc pl-6 text-sm">
+                                        <li>Pretoria Central</li>
+                                        <li>Pretoria West</li>
+                                        <li class="text-gold font-bold">Pretoria East (Ours!)</li>
+                                        <li>Pretoria North</li>
+                                        <li>Tshwane Central</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-navy mb-1 text-center">Pretoria East Parishes:</h5>
+                                    <ul class="list-disc pl-6 text-sm">
+                                        <li>St Peter's, Waterkloof</li>
+                                        <li>St Martin's, Irene</li>
+                                        <li>St Mary's, Refilwe</li>
+                                        <li class="text-gold font-bold">St Francis of Assisi, Mamelodi West <span class="animate-bounce">👈</span></li>
+                                        <li>St Augustine's, Silverton</li>
+                                        <li>St Wilfrid's, Hillcrest</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <span class="inline-block bg-gold text-navy px-4 py-1 rounded-full text-sm font-semibold">You are here!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stepper Controls -->
+                    <div class="flex justify-center mt-6 gap-4">
+                        <button class="step-prev bg-navy text-white px-4 py-2 rounded shadow hover:bg-liturgical-red transition focus:outline-none" disabled>
+                            <i class="fas fa-arrow-left mr-2"></i>Prev
+                        </button>
+                        <button class="step-next bg-navy text-white px-4 py-2 rounded shadow hover:bg-liturgical-red transition focus:outline-none">
+                            Next<i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <script>
+                // Stepper logic
+                (function () {
+                    const panels = document.querySelectorAll('.step-panel');
+                    const btns = document.querySelectorAll('.step-btn');
+                    const prev = document.querySelector('.step-prev');
+                    const next = document.querySelector('.step-next');
+                    let current = 0;
+
+                    function showStep(idx) {
+                        panels.forEach((p, i) => p.classList.toggle('hidden', i !== idx));
+                        btns.forEach((b, i) => {
+                            b.classList.toggle('bg-navy', i === idx);
+                            b.classList.toggle('text-gold', i === idx);
+                            b.classList.toggle('bg-gold', i !== idx);
+                            b.classList.toggle('text-navy', i !== idx);
+                        });
+                        prev.disabled = idx === 0;
+                        next.disabled = idx === panels.length - 1;
+                    }
+
+                    btns.forEach((b, i) => {
+                        b.addEventListener('click', () => {
+                            current = i;
+                            showStep(current);
+                        });
+                    });
+                    prev.addEventListener('click', () => {
+                        if (current > 0) {
+                            current--;
+                            showStep(current);
+                        }
+                    });
+                    next.addEventListener('click', () => {
+                        if (current < panels.length - 1) {
+                            current++;
+                            showStep(current);
+                        }
+                    });
+                    showStep(current);
+                })();
+            </script>
+            <!-- Fun Accordion: Parish Council & Organizations -->
+            <div class="my-8">
+                <div class="accordion-item border-b border-gray-200 shadow-md rounded-lg mb-4 overflow-hidden transition hover:shadow-lg">
+                    <button class="accordion-header w-full py-4 px-4 text-left flex justify-between items-center focus:outline-none bg-gradient-to-r from-gold via-white to-navy hover:from-navy hover:to-gold transition-colors">
+                        <span class="text-lg font-semibold text-navy flex items-center">
+                            <i class="fas fa-users-cog mr-2 text-gold"></i> Parish Council
+                        </span>
+                        <i class="fas fa-chevron-down text-navy transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 bg-white">
+                        <p class="mb-2">
+                            <span class="inline-block bg-gold text-navy px-2 py-1 rounded-full text-xs font-bold mr-2 animate-pulse">Did you know?</span>
+                            The Parish Council is the <span class="font-semibold text-gold">heart</span> of our church's leadership!
+                        </p>
+                        <ul class="list-inside list-disc mb-2 text-navy">
+                            <li>Made up of friendly faces you see every Sunday 😊</li>
+                            <li>Works with our clergy to guide the church's mission</li>
+                            <li>Handles important decisions (and sometimes the coffee!)</li>
+                            <li>Always open to your ideas and feedback</li>
+                        </ul>
+                        <p class="italic text-gray-600">Want to get involved? Chat to a council member after service!</p>
+                    </div>
+                </div>
+                <div class="accordion-item border-b border-gray-200 shadow-md rounded-lg mb-4 overflow-hidden transition hover:shadow-lg">
+                    <button class="accordion-header w-full py-4 px-4 text-left flex justify-between items-center focus:outline-none bg-gradient-to-r from-navy via-white to-gold hover:from-gold hover:to-navy transition-colors">
+                        <span class="text-lg font-semibold text-navy flex items-center">
+                            <i class="fas fa-hands-helping mr-2 text-gold"></i> Church Organizations
+                        </span>
+                        <i class="fas fa-chevron-down text-navy transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-4 pb-4 bg-white">
+                        <p class="mb-2">
+                            Our church is <span class="font-semibold text-gold">buzzing</span> with awesome groups! Find your tribe:
+                        </p>
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-female mr-2 text-gold"></i> Anglican Women's Fellowship (AWF)</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-music mr-2 text-gold"></i> Anglican Choir</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-music mr-2 text-gold"></i> Anglican Men's Guild</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-child mr-2 text-gold"></i> Sunday School</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-cross mr-2 text-gold"></i> Servers Guild</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-heart mr-2 text-gold"></i> Mother's Union</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-male mr-2 text-gold"></i> St. Bernard Mizeki Men's Guild</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-music mr-2 text-gold"></i> St. Mary Magdelene</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-users mr-2 text-gold"></i> Youth</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-music mr-2 text-gold"></i> Young Adults</li>
+                            <li class="flex items-center bg-gold bg-opacity-20 rounded px-2 py-1"><i class="fas fa-music mr-2 text-gold"></i> Lay Ministers</li>
+                           
+                        </ul>
+                        <p class="italic text-gray-600">There's something for everyone—<span class="text-gold font-bold">join in and make friends!</span> 🎉</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Section -->
+            <div>
+                <h3 class="text-2xl font-bold text-navy mb-6 text-center section-header">Gallery</h3>
+                <div class="gallery-grid">
+                    <a href="https://cdn.pixabay.com/photo/2015/11/10/08/31/canterbury-1036462_1280.jpg" class="gallery-item" data-lightbox="cathedral-gallery" data-title="Cathedral Interior">
+                        <img src="https://cdn.pixabay.com/photo/2015/11/10/08/31/canterbury-1036462_1280.jpg" alt="Cathedral Interior">
+                    </a>
+                    <a href="https://cdn.pixabay.com/photo/2017/01/19/23/46/church-1993645_1280.jpg" class="gallery-item" data-lightbox="cathedral-gallery" data-title="Stained Glass Window">
+                        <img src="https://cdn.pixabay.com/photo/2017/01/19/23/46/church-1993645_1280.jpg" alt="Stained Glass Window">
+                    </a>
+                    <a href="https://cdn.pixabay.com/photo/2019/07/18/04/32/church-organ-4345287_1280.jpg" class="gallery-item" data-lightbox="cathedral-gallery" data-title="Cathedral Organ">
+                        <img src="https://cdn.pixabay.com/photo/2019/07/18/04/32/church-organ-4345287_1280.jpg" alt="Cathedral Organ">
+                    </a>
+                    <a href="https://cdn.pixabay.com/photo/2017/08/07/13/53/altar-2604888_1280.jpg" class="gallery-item" data-lightbox="cathedral-gallery" data-title="Cathedral Altar">
+                        <img src="https://cdn.pixabay.com/photo/2017/08/07/13/53/altar-2604888_1280.jpg" alt="Cathedral Altar">
+                    </a>
+                    <a href="https://cdn.pixabay.com/photo/2020/06/26/17/16/columns-5343383_1280.jpg" class="gallery-item" data-lightbox="cathedral-gallery" data-title="Cathedral Columns">
+                        <img src="https://cdn.pixabay.com/photo/2020/06/26/17/16/columns-5343383_1280.jpg" alt="Cathedral Columns">
+                    </a>
+                    <a href="https://cdn.pixabay.com/photo/2019/06/22/16/03/nave-4292149_1280.jpg" class="gallery-item" data-lightbox="cathedral-gallery" data-title="Cathedral Nave">
+                        <img src="https://cdn.pixabay.com/photo/2019/06/22/16/03/nave-4292149_1280.jpg" alt="Cathedral Nave">
+                    </a>
+                    <a href="https://cdn.pixabay.com/photo/2015/03/26/09/45/church-690768_1280.jpg" class="gallery-item" data-lightbox="cathedral-gallery" data-title="Cathedral Exterior">
+                        <img src="https://cdn.pixabay.com/photo/2015/03/26/09/45/church-690768_1280.jpg" alt="Cathedral Exterior">
+                    </a>
+                    <a href="https://cdn.pixabay.com/photo/2015/03/18/09/31/prairie-679014_1280.jpg" class="gallery-item" data-lightbox="cathedral-gallery" data-title="Cathedral Grounds">
+                        <img src="https://cdn.pixabay.com/photo/2015/03/18/09/31/prairie-679014_1280.jpg" alt="Cathedral Grounds">
+                    </a>
+
+                    <!--Create albums for different guilds instead of making pages.-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Ministries Section -->
+<section id="ministries" class="pt-24 pb-16 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <h2 class="text-4xl font-bold text-center text-navy mb-16 section-header">Our Ministries</h2>
+    <p class="text-center max-w-3xl mx-auto mb-12">At St. Francis of Assisi, we offer various ministries to serve our community and help parishioners grow in their faith journey. Explore our ministries below and get involved!</p>
+
+    <!-- Scrollable container for ministries -->
+    <div class="ministry-scroll-container" style="overflow-x:auto; white-space:nowrap; padding-bottom: 1rem;">
+      <div class="ministry-scroll-inner" style="display:flex; gap:1.5rem; min-width:900px;">
+      
+        <div class="ministry-item shadow-md">
+          <img src="stuff/CHOIR.jpg" alt="Choir Ministry" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Choir Ministry</h3>
+            <p class="mb-4">Our choir leads worship through music, enhancing our liturgical experience with traditional and contemporary Anglican hymns.</p>
+          </div>
+        </div>
+
+        <div class="ministry-item shadow-md">
+          <img src="stuff/Youth.png" alt="Youth Ministry" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Youth</h3>
+            <p class="mb-4">Our youth program focuses on spiritual formation, fellowship, and service for young people aged 13-25.</p>
+          </div>
+        </div>
+
+        <div class="ministry-item shadow-md">
+          <img src="stuff/saint.jpg" alt="Community Outreach Ministry" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Community Outreach</h3>
+            <p class="mb-4">We serve our community through food programs, clothing drives, and support for vulnerable populations, living out our call to love our neighbors.</p>
+          </div>
+        </div>
+
+        <div class="ministry-item shadow-md">
+          <img src="stuff/mu.jpeg" alt="Mother's Union" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Mother's Union</h3>
+            <p class="mb-4">The Mother's Union supports families and promotes Christian values through prayer, fellowship, and outreach activities.</p>
+          </div>
+        </div>
+
+        <div class="ministry-item shadow-md">
+          <img src="stuff/awf.jpeg" alt="Women's Fellowship" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Women's Fellowship</h3>
+            <p class="mb-4">The Anglican Women's Fellowship provides spiritual growth, fellowship, and service opportunities for the women of our parish.</p>
+          </div>
+        </div>
+
+        <div class="ministry-item shadow-md">
+          <img src="stuff/bmmg.jpeg" alt="Bernard Mizeki Men's Guild" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Bernard Mizeki Men's Guild</h3>
+            <p class="mb-4">Our men's ministry promotes spiritual growth, fellowship, and service among the men of our congregation.</p>
+          </div>
+        </div>
+
+         <div class="ministry-item shadow-md">
+          <img src="stuff/amg.jpeg" alt="Anglican Men's Guild" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Anglican Men's Guild</h3>
+            <p class="mb-4">The Anglican Men's Guild encourages men to grow in faith and serve the church and community through various activities and outreach.</p>
+          </div>
+        </div>
+
+         <div class="ministry-item shadow-md">
+          <img src="stuff/lay.jpeg" alt="Lay Ministers" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Lay Ministers</h3>
+            <p class="mb-4">Lay Ministers assist in worship, pastoral care, and the spiritual life of the parish, supporting clergy and congregation alike.</p>
+          </div>
+        </div>
+
+         <div class="ministry-item shadow-md">
+          <img src="stuff/STAGNES.png" alt="St. Agnes" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">St. Agnes</h3>
+            <p class="mb-4">St. Agnes Guild is dedicated to nurturing young girls in faith, leadership, and service within the church community.</p>
+          </div>
+        </div>
+
+         <div class="ministry-item shadow-md">
+          <img src="stuff/STmary.jpg" alt="St. Mary Magdelene" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">St. Mary Magdelene</h3>
+            <p class="mb-4">This group fosters spiritual growth and fellowship among women, inspired by the example of St. Mary Magdelene.</p>
+          </div>
+        </div>
+
+         <div class="ministry-item shadow-md">
+          <img src="stuff/woc.jpeg" alt="Women of Charity" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Women of Charity</h3>
+            <p class="mb-4">Women of Charity are committed to acts of kindness and service, supporting those in need within and beyond our parish.</p>
+          </div>
+        </div>
+
+         <div class="ministry-item shadow-md">
+          <img src="stuff/SundaySchool.png" alt="Sunday School" class="ministry-img">
+          <div class="ministry-content">
+            <h3 class="text-xl font-bold text-navy mb-2">Sunday School</h3>
+            <p class="mb-4">Sunday School provides a fun and nurturing environment for children to learn about God and grow in faith.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <style>
+      .ministry-scroll-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .ministry-scroll-inner {
+        display: flex;
+        gap: 1.5rem;
+        min-width: 900px;
+      }
+      .ministry-item {
+        min-width: 300px;
+        flex: 0 0 300px;
+      }
+    </style>
+  </div>
+</section>
+
+
+
+ <!-- Services Section -->
+    <section id="services" class="pt-24 pb-16 relative overflow-hidden">
+        <!-- Random background image -->
+        <div id="services-bg" class="absolute inset-0 w-full h-full z-0" style="background-size:cover;background-position:center;transition:background-image 1s cubic-bezier(0.4,0,0.2,1); opacity:0.55; pointer-events:none;"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-4xl font-bold text-center text-navy mb-16 section-header">Our Services</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white bg-opacity-90 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-navy mb-3">Holy Communion</h3>
+                    <p>Join us for Holy Communion every Sunday. All are welcome to participate in this sacred tradition.</p>
+                </div>
+                <div class="bg-white bg-opacity-90 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-navy mb-3">Baptisms, Confirmations, Weddings & Funerals</h3>
+                    <p>We offer baptism, wedding, and funeral services. Please contact the parish office to schedule or learn more.</p>
+                </div>
+                <div class="bg-white bg-opacity-90 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-navy mb-3">Pastoral Care</h3>
+                    <p>Our clergy and pastoral team are available for counseling, home visits, and prayer support for all in need.</p>
+                </div>
+                <div class="bg-white bg-opacity-90 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-navy mb-3">Community Outreach</h3>
+                    <p>We are committed to serving our community through food drives, support groups, and outreach programs.</p>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Array of background images for the services section
+            const servicesImages = [
+                'HERO/HERO.jpg',
+                'HERO/HERO2.jpg',
+                'HERO/HERO3.jpg',
+                'HERO/HERO4.jpg'
+            ];
+            const servicesBg = document.getElementById('services-bg');
+            function setRandomServicesBg() {
+                const idx = Math.floor(Math.random() * servicesImages.length);
+                servicesBg.style.backgroundImage = `url('${servicesImages[idx]}')`;
+            }
+            setRandomServicesBg();
+            setInterval(setRandomServicesBg, 5000);
+        </script>
+    </section>
+    
+
+    <!-- Events Section -->
+    <section id="events" class="pt-24 pb-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-navy mb-16 section-header hidden md:block">Events Calendar</h2>
+            <!-- Desktop Calendar -->
+            <div class="bg-white p-6 rounded-lg shadow-md hidden md:block">
+                <div id="calendar" class="fc-theme-standard"></div>
+            </div>
+            <!-- Mobile Floating Calendar Button & Modal -->
+            <div class="md:hidden">
+                <!-- Floating Button -->
+                <button id="openMobileCalendar" aria-label="Open Calendar"
+                    class="fixed bottom-6 left-6 z-50 bg-navy text-white rounded-full shadow-lg w-16 h-16 flex items-center justify-center border-4 border-gold transition-transform transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-gold"
+                    style="box-shadow: 0 8px 32px rgba(30,34,106,0.18), 0 0 0 5px rgba(212,169,65,0.18);">
+                    <i class="fas fa-calendar-alt text-3xl"></i>
+                </button>
+                <!-- Mobile Calendar Modal -->
+                <div id="mobileCalendarModal" class="modal" style="display:none;">
+                    <div class="modal-content" style="max-width:98vw; width:98vw; padding:1rem;">
+                        <span class="close-modal" id="closeMobileCalendar" style="top:0.7rem; right:1rem;">&times;</span>
+                        <h2 class="text-xl font-bold text-navy mb-4 text-center">Events Calendar</h2>
+                        <div id="calendar-mobile" class="fc-theme-standard"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Event Modal (shared for both desktop and mobile) -->
+            <div id="eventModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal" id="closeEventModal">&times;</span>
+                    <h2 id="eventTitle" class="text-2xl font-bold text-navy mb-4"></h2>
+                    <div id="eventDetails">
+                        <p id="eventDate" class="mb-2"></p>
+                        <p id="eventTime" class="mb-2"></p>
+                        <p id="eventDescription" class="mb-2"></p>
+                        <p id="eventLocation" class="mb-2"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            @media (max-width: 767px) {
+                #openMobileCalendar {
+                    position: fixed;
+                    bottom: 1.5rem;
+                    right: 1.5rem;
+                    width: 60px;
+                    height: 60px;
+                    font-size: 2rem;
+                    box-shadow: 0 8px 32px rgba(30,34,106,0.18), 0 0 0 5px rgba(212,169,65,0.18);
+                    border: 4px solid var(--gold);
+                    z-index: 9999;
+                }
+                #mobileCalendarModal .modal-content {
+                    max-width: 98vw !important;
+                    width: 98vw !important;
+                    padding: 1rem !important;
+                    min-height: 60vh;
+                }
+                #calendar-mobile {
+                    min-width: 0;
+                    width: 100%;
+                    min-height: 350px;
+                }
+            }
+        </style>
+        
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="pt-24 pb-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-navy mb-16 section-header">Contact Us</h2>
+            <div class="max-w-5xl mx-auto flex flex-col md:flex-row gap-10">
+                <!-- Contact Form (Left) -->
+                <div class="md:w-1/2 bg-white rounded-2xl shadow-xl p-8 flex flex-col justify-center border border-gold" style="min-width:320px;">
+                    <form id="contactForm" autocomplete="on">
+                        <!-- Name -->
+                        <div class="mb-4">
+                            <label class="block text-navy font-semibold mb-2" for="name">
+                                <i class="fas fa-user mr-2 text-gold"></i>Name
+                            </label>
+                            <input class="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                                type="text" id="name" name="name" placeholder="Your full name" required
+                                inputmode="text" pattern="^[A-Za-z\s\-]{2,}$" maxlength="50"
+                                style="font-size:16px;" autocomplete="name" />
+                        </div>
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <label class="block text-navy font-semibold mb-2" for="email">
+                                <i class="fas fa-envelope mr-2 text-gold"></i>Email
+                            </label>
+                            <input class="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                                type="email" id="email" name="email" placeholder="you@example.com" required
+                                inputmode="email" maxlength="60" style="font-size:16px;" autocomplete="email" />
+                        </div>
+                        <!-- Phone (optional) -->
+                        <div class="mb-4">
+                            <label class="block text-navy font-semibold mb-2" for="phone">
+                                <i class="fas fa-phone mr-2 text-gold"></i>Phone <span class="text-xs text-gray-500">(optional)</span>
+                            </label>
+                            <input class="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                                type="tel" id="phone" name="phone" placeholder="+27 81 234 5678"
+                                inputmode="tel" maxlength="13" style="font-size:16px;" autocomplete="tel" />
+                            <small id="phoneError" class="text-red-600 hidden"></small>
+                        </div>
+                        <!-- Reason for Contact -->
+                        <div class="mb-4">
+                            <label class="block text-navy font-semibold mb-2" for="reason">
+                                <i class="fas fa-question-circle mr-2 text-gold"></i>Reason for Contact
+                            </label>
+                            <select class="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                                id="reason" name="reason" required style="font-size:16px;" autocomplete="off">
+                                <option value="">Select a reason</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="service">Service Request</option>
+                                <option value="event">Event Information</option>
+                                <option value="prayer">Prayer Request</option>
+                                <option value="volunteer">Volunteer</option>
+                                <option value="donation">Donation</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <!-- Specific Service (Shown only if "Service Request" is selected) -->
+                        <div id="serviceOptions" class="mb-4 hidden">
+                            <label class="block text-navy font-semibold mb-2" for="serviceType">
+                                <i class="fas fa-church mr-2 text-gold"></i>Select a Service
+                            </label>
+                            <select class="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                                id="serviceType" name="serviceType" style="font-size:16px;">
+                                <option value="">Choose a service</option>
+                                <option value="baptism">Baptism</option>
+                                <option value="confirmation">Confirmation</option>
+                                <option value="wedding">Wedding</option>
+                                <option value="funeral">Funeral</option>
+                            </select>
+                        </div>
+                        <!-- Preferred Contact Method -->
+                        <div class="mb-4">
+                            <label class="block text-navy font-semibold mb-2">
+                                <i class="fas fa-reply mr-2 text-gold"></i>Preferred Contact Method
+                            </label>
+                            <div class="flex flex-wrap items-center gap-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="contact_method" value="email" class="mr-2" required autocomplete="off"> Email
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="contact_method" value="phone" class="mr-2" autocomplete="off"> Phone
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="contact_method" value="both" class="mr-2" autocomplete="off"> Both
+                                </label>
+                            </div>
+                            <small id="contactMethodError" class="text-red-600 hidden"></small>
+                        </div>
+                        <!-- Message -->
+                        <div class="mb-6">
+                            <label class="block text-navy font-semibold mb-2" for="message">
+                                <i class="fas fa-comment-dots mr-2 text-gold"></i>Your Message
+                            </label>
+                            <textarea class="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                                id="message" name="message" rows="4" placeholder="Tell us how we can help..." required autocomplete="off"></textarea>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="bg-gold text-navy px-6 py-2 rounded font-semibold hover:bg-yellow-400 transition flex items-center justify-center mx-auto shadow-lg">
+                                <i class="fas fa-paper-plane mr-2"></i>Send Message
+                            </button>
+                        </div>
+                    </form>
+                    <script>
+                        document.getElementById('reason').addEventListener('change', function () {
+                            const serviceOptions = document.getElementById('serviceOptions');
+                            serviceOptions.classList.toggle('hidden', this.value !== 'service');
+                        });
+                    </script>
+                </div>
+                <!-- Info & Map (Right) -->
+                <div class="md:w-1/2 flex flex-col gap-8 justify-between">
+                    <div class="rounded-2xl shadow-xl p-6 bg-white bg-opacity-60 backdrop-blur-md border border-gold glossary-card" style="background:rgba(255,255,255,0.7); box-shadow:0 8px 32px rgba(30,34,106,0.10); transition: box-shadow 0.4s, transform 0.4s;">
+                        <h3 class="text-2xl font-bold text-navy mb-4 flex items-center glossary-title">
+                            <i class="fas fa-clock text-gold mr-2"></i>Business Hours
+                        </h3>
+                        <ul class="text-lg mb-6 glossary-list">
+                            <li class="mb-2 flex items-center glossary-item">
+                                <i class="fas fa-calendar-day text-gold mr-2"></i>
+                                <span>Mon - Fri: <span class="font-semibold text-navy">08:00 - 16:00</span></span>
+                            </li>
+                            <li class="mb-2 flex items-center glossary-item">
+                                <i class="fas fa-calendar-day text-gold mr-2"></i>
+                                <span>Saturday: <span class="font-semibold text-navy">09:00 - 13:00</span></span>
+                            </li>
+                            <li class="mb-2 flex items-center glossary-item">
+                                <i class="fas fa-church text-gold mr-2"></i>
+                                <span>Sunday Services: <span class="font-semibold text-navy">07:00, 08:30</span></span>
+                            </li>
+                            <li class="mb-2 flex items-center glossary-item">
+                                <i class="fas fa-times-circle text-gold mr-2"></i>
+                                <span>Public Holidays: <span class="font-semibold text-navy">Closed</span></span>
+                            </li>
+                        </ul>
+                        <h3 class="text-2xl font-bold text-navy mb-4 flex items-center glossary-title">
+                            <i class="fas fa-info-circle text-gold mr-2"></i>Contact Info
+                        </h3>
+                        <ul class="text-lg mb-6 glossary-list">
+                            <li class="mb-2 flex items-center glossary-item">
+                                <i class="fas fa-phone-alt text-gold mr-2"></i>
+                                <a href="tel:0814421719" class="hover:text-gold transition" style="display:inline-block;">
+                                    081 442 1719
+                                </a>
+                                <span class="mx-2">|</span>
+                                <a href="https://wa.me/27814421719" target="_blank" rel="noopener" class="hover:text-gold transition" aria-label="WhatsApp Parish Office" style="display:inline-block;">
+                                    <i class="fab fa-whatsapp text-green-600"></i> WhatsApp
+                                </a>
+                            </li>
+                            <li class="mb-2 flex items-center glossary-item">
+                                <i class="fas fa-envelope text-gold mr-2"></i>
+                                <span>admin@sfmw.co.za</span>
+                            </li>
+                        </ul>
+                        <div class="flex items-center gap-4 justify-center mt-4 glossary-social">
+                            <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="text-navy hover:text-gold transition glossary-social-link" aria-label="Facebook">
+                                <i class="fab fa-facebook-f text-2xl"></i>
+                            </a>
+                            <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="text-navy hover:text-gold transition glossary-social-link" aria-label="Instagram">
+                                <i class="fab fa-instagram text-2xl"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/" target="_blank" rel="noopener" class="text-navy hover:text-gold transition glossary-social-link" aria-label="TikTok">
+                                <i class="fab fa-tiktok text-2xl"></i>
+                            </a>
+                            <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="text-navy hover:text-gold transition glossary-social-link" aria-label="YouTube">
+                                <i class="fab fa-youtube text-2xl"></i>
+                            </a>
+                        </div>
+                        <style>
+                            .glossary-card {
+                                position: relative;
+                                overflow: hidden;
+                                transition: box-shadow 0.4s, transform 0.4s, background 0.4s;
+                                background: rgba(255,255,255,0.7);
+                                box-shadow: 0 8px 32px rgba(30,34,106,0.10);
+                            }
+                            .glossary-card::before {
+                                content: "";
+                                position: absolute;
+                                inset: 0;
+                                background: linear-gradient(120deg, var(--gold) 0%, transparent 60%);
+                                opacity: 0.08;
+                                pointer-events: none;
+                                z-index: 0;
+                                transition: opacity 0.4s;
+                            }
+                            .glossary-card:hover, .glossary-card:focus-within {
+                                box-shadow: 0 16px 48px rgba(30,34,106,0.18), 0 0 0 6px rgba(212,169,65,0.13);
+                                transform: translateY(-4px) scale(1.025);
+                                background: rgba(255,255,255,0.92);
+                            }
+                            .glossary-title {
+                                position: relative;
+                                z-index: 1;
+                                opacity: 0;
+                                transform: translateY(30px);
+                                animation: glossaryFadeInUp 0.7s 0.1s forwards;
+                            }
+                            .glossary-list {
+                                position: relative;
+                                z-index: 1;
+                            }
+                            .glossary-item {
+                                opacity: 0;
+                                transform: translateX(-30px);
+                                animation: glossaryFadeInLeft 0.7s forwards;
+                            }
+                            .glossary-item:nth-child(1) { animation-delay: 0.15s; }
+                            .glossary-item:nth-child(2) { animation-delay: 0.3s; }
+                            .glossary-item:nth-child(3) { animation-delay: 0.45s; }
+                            .glossary-item:nth-child(4) { animation-delay: 0.6s; }
+                            .glossary-social {
+                                opacity: 0;
+                                transform: scale(0.95);
+                                animation: glossaryFadeInSocial 0.7s 0.8s forwards;
+                            }
+                            .glossary-social-link {
+                                transition: color 0.3s, transform 0.3s;
+                                position: relative;
+                            }
+                            .glossary-social-link:hover, .glossary-social-link:focus {
+                                color: var(--gold) !important;
+                                transform: scale(1.18) rotate(-8deg);
+                                text-shadow: 0 2px 12px rgba(212,169,65,0.18);
+                            }
+                            @keyframes glossaryFadeInUp {
+                                from { opacity: 0; transform: translateY(30px);}
+                                to { opacity: 1; transform: translateY(0);}
+                            }
+                            @keyframes glossaryFadeInLeft {
+                                from { opacity: 0; transform: translateX(-30px);}
+                                to { opacity: 1; transform: translateX(0);}
+                            }
+                            @keyframes glossaryFadeInSocial {
+                                from { opacity: 0; transform: scale(0.95);}
+                                to { opacity: 1; transform: scale(1);}
+                            }
+                        </style>
+                        <script>
+                            // Animate glossary items on load
+                            document.addEventListener('DOMContentLoaded', function () {
+                                // Animate glossary titles
+                                document.querySelectorAll('.glossary-title').forEach(function(el) {
+                                    el.style.animationPlayState = 'running';
+                                });
+                                // Animate glossary list items
+                                document.querySelectorAll('.glossary-item').forEach(function(el) {
+                                    el.style.animationPlayState = 'running';
+                                });
+                                // Animate social icons
+                                document.querySelectorAll('.glossary-social').forEach(function(el) {
+                                    el.style.animationPlayState = 'running';
+                                });
+                            });
+                        </script>
+                    </div>
+                    <!-- Mini Map -->
+                    <div class="rounded-2xl shadow-xl overflow-hidden border border-gold bg-white bg-opacity-60 backdrop-blur-md" style="background:rgba(255,255,255,0.7);padding:0;">
+                        <div id="miniMap" style="width:100%;height:100%;min-height:180px;"></div>
+                    </div>
+                    <script>
+                        // Mini map initialization (Leaflet)
+                        // Replace mini map with Google Maps embed
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var miniMap = document.getElementById('miniMap');
+                            if (miniMap) {
+                                miniMap.innerHTML = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.849144822222!2d28.348811443136736!3d-25.709418299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e955f79dce83f6f%3A0x3321b562a4b58e79!2sSt%20Francis%20Anglican%20Church!5e0!3m2!1sen!2sza!4v1750436045217!5m2!1sen!2sza" width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <style>
+            #contact .backdrop-blur-md {
+                backdrop-filter: blur(12px) saturate(120%);
+                -webkit-backdrop-filter: blur(12px) saturate(120%);
+            }
+            #contact .border-gold {
+                border-color: var(--gold);
+            }
+            #miniMap {
+                border-radius: 1rem;
+                min-height: 180px;
+                box-shadow: 0 4px 24px rgba(30,34,106,0.10);
+                border: 2px solid var(--gold);
+            }
+            @media (max-width: 900px) {
+                #contact .flex-col.md\:flex-row {
+                    flex-direction: column !important;
+                }
+                #contact .md\:w-1\/2 {
+                    width: 100% !important;
+                }
+                #miniMap {
+                    min-height: 160px;
+                }
+            }
+        </style>
+    </section>
+                        <!-- FAQ Section -->
+                        <section id="faq" class="pt-24 pb-16 bg-white">
+                            <div class="container mx-auto px-4">
+                                <h2 class="text-4xl font-bold text-center text-navy mb-12 section-header">Frequently Asked Questions</h2>
+                                <div class="max-w-2xl mx-auto">
+                                    <div class="faq-accordion space-y-4">
+                                        <!-- FAQ 1 -->
+                                        <div class="faq-item rounded-lg shadow-md bg-gray-50">
+                                            <button class="faq-question w-full flex justify-between items-center px-6 py-4 text-lg font-semibold text-navy focus:outline-none">
+                                                <span><i class="fas fa-question-circle text-gold mr-2"></i>What time are Sunday services?</span>
+                                                <i class="fas fa-chevron-down text-gold transition-transform"></i>
+                                            </button>
+                                            <div class="faq-answer px-6 pb-4 text-center text-gray-700 hidden">
+                                                Our Sunday services are at <span class="font-bold text-navy">7:00 AM</span> (Express) and <span class="font-bold text-navy">8:00 AM</span> (Main Service). All are welcome!
+                                            </div>
+                                        </div>
+                                        <!-- FAQ 2 -->
+                                        <div class="faq-item rounded-lg shadow-md bg-gray-50">
+                                            <button class="faq-question w-full flex justify-between items-center px-6 py-4 text-lg font-semibold text-navy focus:outline-none">
+                                                <span><i class="fas fa-question-circle text-gold mr-2"></i>Can I visit even if I'm not Anglican?</span>
+                                                <i class="fas fa-chevron-down text-gold transition-transform"></i>
+                                            </button>
+                                            <div class="faq-answer px-6 pb-4 text-center text-gray-700 hidden">
+                                                Absolutely! Everyone is welcome at St. Francis of Assisi, no matter your background or beliefs.
+                                            </div>
+                                        </div>
+                                        <!-- FAQ 3 -->
+                                        <div class="faq-item rounded-lg shadow-md bg-gray-50">
+                                            <button class="faq-question w-full flex justify-between items-center px-6 py-4 text-lg font-semibold text-navy focus:outline-none">
+                                                <span><i class="fas fa-question-circle text-gold mr-2"></i>How do I join a ministry or group?</span>
+                                                <i class="fas fa-chevron-down text-gold transition-transform"></i>
+                                            </button>
+                                            <div class="faq-answer px-6 pb-4 text-center text-gray-700 hidden">
+                                                Just chat to a group leader after service or use our <a href="#contact" class="text-gold underline hover:text-navy">contact form</a>—we'll help you find your fit!
+                                            </div>
+                                        </div>
+                                        <!-- FAQ 4 -->
+                                        <div class="faq-item rounded-lg shadow-md bg-gray-50">
+                                            <button class="faq-question w-full flex justify-between items-center px-6 py-4 text-lg font-semibold text-navy focus:outline-none">
+                                                <span><i class="fas fa-question-circle text-gold mr-2"></i>Is there parking available?</span>
+                                                <i class="fas fa-chevron-down text-gold transition-transform"></i>
+                                            </button>
+                                            <div class="faq-answer px-6 pb-4 text-center text-gray-700 hidden">
+                                                Yes! We have plenty of safe parking on site—just follow the signs and friendly ushers.
+                                            </div>
+                                        </div>
+                                        <!-- FAQ 5 -->
+                                        <div class="faq-item rounded-lg shadow-md bg-gray-50">
+                                            <button class="faq-question w-full flex justify-between items-center px-6 py-4 text-lg font-semibold text-navy focus:outline-none">
+                                                <span><i class="fas fa-question-circle text-gold mr-2"></i>Can I bring my kids?</span>
+                                                <i class="fas fa-chevron-down text-gold transition-transform"></i>
+                                            </button>
+                                            <div class="faq-answer px-6 pb-4 text-center text-gray-700 hidden">
+                                                Of course! We have Sunday School and activities for children and youth. Bring the whole family!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <style>
+                                #faq .faq-accordion { text-align: center; }
+                                #faq .faq-item { transition: box-shadow 0.2s; }
+                                #faq .faq-item:hover { box-shadow: 0 8px 24px rgba(30,34,106,0.10); }
+                                #faq .faq-question { background: none; border: none; outline: none; cursor: pointer; }
+                                #faq .faq-question .fa-chevron-down { transition: transform 0.3s; }
+                                #faq .faq-item.open .faq-question .fa-chevron-down { transform: rotate(180deg); }
+                                #faq .faq-answer { animation: faqFadeIn 0.4s; }
+                                @keyframes faqFadeIn { from { opacity: 0; transform: translateY(-10px);} to { opacity: 1; transform: translateY(0);} }
+                            </style>
+                            <script>
+                                document.querySelectorAll('.faq-question').forEach(btn => {
+                                    btn.addEventListener('click', function() {
+                                        const item = this.closest('.faq-item');
+                                        const answer = item.querySelector('.faq-answer');
+                                        const open = item.classList.contains('open');
+                                        document.querySelectorAll('.faq-item').forEach(i => {
+                                            i.classList.remove('open');
+                                            i.querySelector('.faq-answer').classList.add('hidden');
+                                        });
+                                        if (!open) {
+                                            item.classList.add('open');
+                                            answer.classList.remove('hidden');
+                                        }
+                                    });
+                                });
+                            </script>
+                        </section>
+
+    <!-- Footer -->
+    <footer class="text-white py-12">
+        <div class="container mx-auto px-4">
+            <!-- Modern Footer Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 py-10">
+                <!-- Find Us / Map -->
+                <div class="md:col-span-1 flex flex-col items-start">
+                    <h4 class="text-lg font-bold mb-3 text-gold flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2"></i> Find Us
+                    </h4>
+                    <div class="w-full rounded-lg overflow-hidden shadow-lg mb-4" style="min-width:180px;">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.849144822222!2d28.348811443136736!3d-25.709418299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e955f79dce83f6f%3A0x3321b562a4b58e79!2sSt%20Francis%20Anglican%20Church!5e0!3m2!1sen!2sza!4v1750436045217!5m2!1sen!2sza" width="100%" height="120" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <span class="text-sm text-white/80">Mamelodi West, Pretoria, South Africa</span>
+                </div>
+                <!-- Contact Us -->
+                <div class="flex flex-col items-start">
+                    <h4 class="text-lg font-bold mb-3 text-gold flex items-center">
+                        <i class="fas fa-phone-alt mr-2"></i> Contact
+                    </h4>
+                    <ul class="space-y-2 text-white/90 text-sm">
+                        <li><i class="fas fa-phone mr-2 text-gold"></i>Parish Office: <a href="tel:0814421719" class="hover:text-gold">081 442 1719</a></li>
+                        <li><i class="fas fa-user-tie mr-2 text-gold"></i>Rector: <a href="tel:0671874714" class="hover:text-gold">Revd. Canon Benjamin Moleko</a></li>
+                        <li><i class="fas fa-user mr-2 text-gold"></i>Deacon: <a href="tel:0832943092" class="hover:text-gold">Revd. Charles Moeng</a></li>
+                        <li><i class="fas fa-envelope mr-2 text-gold"></i><a href="mailto:admin@sfmw.co.za" class="hover:text-gold">admin@sfmw.co.za</a></li>
+                        <li><i class="fas fa-envelope mr-2 text-gold"></i><a href="mailto:rector@sfmw.co.za" class="hover:text-gold">rector@sfmw.co.za</a></li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="hover:text-gold" aria-label="Facebook"><i class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="hover:text-gold" aria-label="Twitter"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="hover:text-gold" aria-label="Instagram"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="hover:text-gold" aria-label="YouTube"><i class="fab fa-youtube text-xl"></i></a>
+                    </div>
+                </div>
+                <!-- Leadership & Developer -->
+                <div class="flex flex-col items-start">
+                    <h4 class="text-lg font-bold mb-3 text-gold flex items-center">
+                        <i class="fas fa-users mr-2"></i> Leadership
+                    </h4>
+                    <div class="text-white/90 text-sm mb-4">
+                        <div class="font-semibold mb-1">Church Wardens:</div>
+                        <ul class="ml-2 mb-2">
+                            <li>Motlatsi Mabena</li>
+                            <li>Molatlhegi Ramushu</li>
+                            <li>Edith Motau</li>
+                        </ul>
+                        <div class="font-semibold mb-1">Developer:</div>
+                        <div class="ml-2">
+                            Made by Line Tech<br>
+                            <a href="https://griffin71.github.io/LineTechPortal/" target="_blank" rel="noopener" class="hover:text-gold inline-flex items-center">
+                                <i class="fas fa-globe mr-1"></i> Visit Website
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Quick Links -->
+                <div class="flex flex-col items-start">
+                    <h4 class="text-lg font-bold mb-3 text-gold flex items-center">
+                        <i class="fas fa-link mr-2"></i> Quick Links
+                    </h4>
+                    <ul class="space-y-2 text-white/90 text-sm">
+                        <li><a href="#home" class="hover:text-gold">Home</a></li>
+                        <li><a href="#about" class="hover:text-gold">About</a></li>
+                        <li><a href="#ministries" class="hover:text-gold">Ministries</a></li>
+                        <li><a href="#services" class="hover:text-gold">Services</a></li>
+                        <li><a href="#events" class="hover:text-gold">Events</a></li>
+                        <li><a href="#contact" class="hover:text-gold">Contact</a></li>
+                        <li><a href="javascript:void(0)" id="tcPrivacyLink" class="hover:text-gold">T&C & Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/20 mt-8 pt-6 text-center text-white/70 text-sm">
+                &copy; 2025 St. Francis of Assisi Mamelodi West. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Terms and Conditions & Privacy Policy Modal -->
+    <!-- Terms and Conditions & Privacy Policy Modal (Modern, Neat, Easy to Read) -->
+    <div id="tcPrivacyModal" class="modal">
+        <div class="modal-content" style="max-width: 680px; padding: 2.2rem 1.5rem;">
+            <button class="close-modal" style="top:1.2rem; right:1.5rem;" aria-label="Close">&times;</button>
+            <div class="flex items-center gap-3 mb-2">
+                <i class="fas fa-shield-alt text-gold text-2xl"></i>
+                <h2 class="text-2xl md:text-3xl font-bold text-navy mb-0">Terms &amp; Privacy</h2>
+            </div>
+            <div class="text-xs text-gray-500 mb-5">Last updated: <span class="font-semibold text-navy">2025/07/11</span></div>
+            <div class="divide-y divide-gold/20">
+                <!-- Terms Section -->
+                <section class="py-4">
+                    <h3 class="text-lg font-bold text-navy mb-2 flex items-center gap-2">
+                        <i class="fas fa-file-contract text-gold"></i> Terms and Conditions
+                    </h3>
+                    <ul class="space-y-3 text-gray-800 leading-relaxed pl-2">
+                        <li>
+                            <span class="font-semibold text-gold">Content Usage:</span>
+                            <span>All content is for informational purposes only and may change without notice. Please do not copy or share content without permission.</span>
+                        </li>
+                        <li>
+                            <span class="font-semibold text-gold">Accuracy:</span>
+                            <span>We strive for accuracy, but cannot guarantee all information is always complete or up-to-date.</span>
+                        </li>
+                        <li>
+                            <span class="font-semibold text-gold">Third-Party Links:</span>
+                            <span>Links to other sites are for your convenience. We are not responsible for their content or privacy.</span>
+                        </li>
+                    </ul>
+                </section>
+                <!-- Privacy Section -->
+                <section class="py-4">
+                    <h3 class="text-lg font-bold text-navy mb-2 flex items-center gap-2">
+                        <i class="fas fa-user-shield text-gold"></i> Privacy Policy
+                    </h3>
+                    <ul class="space-y-3 text-gray-800 leading-relaxed pl-2">
+                        <li>
+                            <span class="font-semibold text-gold">What We Collect:</span>
+                            <span>Your name, email, and phone (if you contact us or sign up for events/newsletters).</span>
+                        </li>
+                        <li>
+                            <span class="font-semibold text-gold">How We Use It:</span>
+                            <span>To respond to you, provide services, send updates (if subscribed), and improve our site.</span>
+                        </li>
+                        <li>
+                            <span class="font-semibold text-gold">Cookies:</span>
+                            <span>We may use cookies for a better experience. You can disable them in your browser.</span>
+                        </li>
+                        <li>
+                            <span class="font-semibold text-gold">Data Security:</span>
+                            <span>Your info is protected with appropriate security measures.</span>
+                        </li>
+                        <li>
+                            <span class="font-semibold text-gold">Questions?</span>
+                            <span>Email us at <a href="mailto:admin@sfmw.co.za" class="text-gold underline hover:text-navy">admin@sfmw.co.za</a></span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <style>
+            #tcPrivacyModal .modal-content {
+                background: #fff;
+                border-radius: 1.25rem;
+                box-shadow: 0 12px 40px rgba(30,34,106,0.16), 0 0 0 4px rgba(212,169,65,0.08);
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+            #tcPrivacyModal h2, #tcPrivacyModal h3 {
+                letter-spacing: 0.01em;
+            }
+            #tcPrivacyModal ul {
+                margin: 0;
+                padding: 0 0 0 0.5rem;
+                list-style: none;
+            }
+            #tcPrivacyModal ul li {
+                display: flex;
+                gap: 0.5rem;
+                align-items: flex-start;
+                font-size: 1rem;
+            }
+            #tcPrivacyModal ul li:before {
+                content: "•";
+                color: var(--gold);
+                font-weight: bold;
+                margin-right: 0.5rem;
+                font-size: 1.1em;
+                line-height: 1.2;
+            }
+            #tcPrivacyModal .close-modal {
+                background: none;
+                border: none;
+                color: var(--navy-blue);
+                font-size: 2rem;
+                position: absolute;
+                right: 1.5rem;
+                top: 1.2rem;
+                cursor: pointer;
+                transition: color 0.2s, transform 0.2s;
+            }
+            #tcPrivacyModal .close-modal:hover {
+                color: var(--liturgical-red);
+                transform: scale(1.1) rotate(90deg);
+            }
+            @media (max-width: 600px) {
+                #tcPrivacyModal .modal-content {
+                    padding: 1.1rem 0.5rem;
+                    max-width: 98vw;
+                }
+                #tcPrivacyModal h2 { font-size: 1.3rem; }
+                #tcPrivacyModal h3 { font-size: 1.1rem; }
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = document.getElementById('tcPrivacyModal');
+                var closeBtn = modal.querySelector('.close-modal');
+                var link = document.getElementById('tcPrivacyLink');
+                if (link) {
+                    link.addEventListener('click', function () {
+                        modal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    });
+                }
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function () {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = '';
+                    });
+                }
+                window.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+        </script>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.js"></script>
+    
+    <script src="ASSU.js"></script>
+    <script src="calender.js"></script>
+    <script src="fullcalender.js"></script>
+    <script src="map.js"></script>
+    <script src ="script.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+</body>
+</html>

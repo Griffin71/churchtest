@@ -1,0 +1,36 @@
+
+
+.about-section {
+  padding: 40px 20px;
+}
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+.about-block {
+  margin-bottom: 40px;
+}
+.about-block h2 {
+  color: #1e226a;
+  margin-bottom: 12px;
+}
+.about-block p,
+.about-block ul {
+  color: #444;
+  font-size: 1rem;
+}
+.about-block ul {
+  list-style-type: square;
+  padding-left: 20px;
+}
+.gallery {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
